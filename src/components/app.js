@@ -1,6 +1,8 @@
 import React from 'react';
 import 'materialize-css/dist/css/materialize.min.css';   //.min is minified version
+import 'materialize-css/dist/js/materialize.min';
 import '../assets/css/app.scss';
+import AddStudent from './add_student'
 import Table from './table';
 
 
@@ -9,7 +11,14 @@ const App = () => (
 
         <h1 className="center">SGT</h1>
 
-       <Table/>
+        <div className="row">
+            <div className="col s12 m8">
+                <Table/>
+            </div>
+            <div className="col s12 m4">
+                <AddStudent/>
+            </div>
+        </div>
 
     </div>
 );
