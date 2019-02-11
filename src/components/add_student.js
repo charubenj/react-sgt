@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class AddStudent extends Component {
 
@@ -11,7 +11,8 @@ class AddStudent extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();     // preventing page to get refresh
-        console.log('Form submitted', this.state)
+        this.props.add(this.state);  //adding and displaying  data into dom
+
         this.resetForm();
     }
 
@@ -26,8 +27,7 @@ class AddStudent extends Component {
 
 
     handleKeyPress = (event) => {
-        // console.log('Event Name:', event.target.name);
-        //console.log('Event Value:', event.target.value);
+     
         this.setState({
             [event.target.name]: event.target.value//   const email='jelly'; user={[email]:'abc@gmail.com}, console.log(user);
         });

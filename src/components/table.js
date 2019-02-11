@@ -6,7 +6,7 @@ import StudentRow from './student_row';
 const Table = props =>  {
         //console.log('Table State: ', this.state);
         const studentRows = props.studentList.map((student) => {  // map is an array function use for looping of an array element
-            return <StudentRow key={student.id} student={student}/>
+            return <StudentRow delete ={props.deleteStudent}  key={student.id} student={student}/>
         });
         return (
             <table>
@@ -15,6 +15,7 @@ const Table = props =>  {
                     <th>Name</th>
                     <th>Course</th>
                     <th>Grade</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
