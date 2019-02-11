@@ -1,76 +1,82 @@
-import React,{ Component } from 'react';
+import React, {Component} from 'react';
 
 class AddStudent extends Component {
 
-    state={
+    state = {
 
-        name:'',
+        name: '',
         course: '',
-        grade:''
+        grade: ''
     }
 
-
-    handleSubmit=(event)=>{
-
+    handleSubmit = (event) => {
         event.preventDefault();     // preventing page to get refresh
-
-        console.log('Form submitted');
-
         console.log('Form submitted', this.state)
+        this.resetForm();
+    }
+
+    resetForm = () => {
+        this.setState({
+            name: '',
+            course: '',
+            grade: ''
+        });
+
     }
 
 
-    handleKeyPress=(event)=>{
-        console.log('Event Name:', event.target.name);
-        console.log('Event Value:', event.target.value);
+    handleKeyPress = (event) => {
+        // console.log('Event Name:', event.target.name);
+        //console.log('Event Value:', event.target.value);
+        this.setState({
+            [event.target.name]: event.target.value//   const email='jelly'; user={[email]:'abc@gmail.com}, console.log(user);
+        });
 
-        switch(event.target.name){
-            case 'name':
-                this.setState({
-                    name:event.target.value
-                })
-                break;
-            case 'course':
-                this.setState({
-                    course:event.target.value
-                })
-                break;
-            case 'grade':
-                this.setState({
-                    grade:event.target.value
-                })
-                break;
-        }
+        //     switch(event.target.name){  // when we entr value handelpress will call it will grab the value event.target.name. pass value in setState
+        //         case 'name':
+        //             this.setState({
+        //                 name:event.target.value
+        //             })
+        //             break;
+        //         case 'course':
+        //             this.setState({
+        //                 course:event.target.value
+        //             })
+        //             break;
+        //         case 'grade':
+        //             this.setState({
+        //                 grade:event.target.value
+        //             })
+        //             break;
+        //     }
+
     }
 
-
-    render(){
-
-        const{name , course, grade}=this.state;
+    render() {
+        const {name, course, grade} = this.state;
         return (
-
             <form onSubmit={this.handleSubmit}>
-              <div className="row">
-                  <div className="col input-field s10 offset-s1">
-                      <input onChange={this.handleKeyPress} name = "name" type="text" id="name" value={name}/>
-                      <label htmlFor="name">Name</label>
-                  </div>
-              </div>
                 <div className="row">
                     <div className="col input-field s10 offset-s1">
-                        <input onChange={this.handleKeyPress} name="course" type="text" id="course" value={course}/>
+                        <input onChange={this.handleKeyPress} name="name" type="text" id="name" value={name} autoComplete='off'/>
+                        <label htmlFor="name">Name</label>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col input-field s10 offset-s1">
+                        <input onChange={this.handleKeyPress} name="course" type="text" id="course" value={course} autoComplete='off'/>
                         <label htmlFor="course">Course</label>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col input-field s10 offset-s1">
-                        <input onChange={this.handleKeyPress} name="grade" type="text" id="grade" value={grade}/>
+                        <input onChange={this.handleKeyPress} name="grade" type="text" id="grade" value={grade} autoComplete='off'/>
                         <label htmlFor="grade">Grade</label>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col s6 center">
-                        <button type ="button" className="btn red darken-2 waves-effect waves-light">Clear</button>
+                        <button onClick={this.resetForm} type="button" className="btn red darken-2 waves-effect waves-light">Clear</button>
                     </div>
 
                     <div className="col s6 center">
