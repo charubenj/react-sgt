@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import 'materialize-css/dist/css/materialize.min.css';   //.min is minified version
-import 'materialize-css/dist/js/materialize.min';
+import 'materialize-css/dist/js/materialize.min';   // componenet has to be capatilized for react
 import '../assets/css/app.scss';
 import AddStudent from './add_student'
 import Table from './table';
+import axios from 'axios';
 import studentData from "../data/get_all_students";
 import {randomString} from '../helpers';   // if we only give folder name then it will search index file in folder
 
@@ -47,9 +48,13 @@ class App extends Component {
 
         //Call server to get  student data
 
-        this.setState({
-            students: studentData
+        axios.get('http://localhost/server/getstudentlist.php').then((response) => {         //technical axios returns an object promise
+            console.log('Server Response: ', response.data.data);
+            this.setState({
+                students: response.data.data
+            });
         });
+        
     }
 
     render() {

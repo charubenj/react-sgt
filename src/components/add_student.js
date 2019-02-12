@@ -12,7 +12,6 @@ class AddStudent extends Component {
     handleSubmit = (event) => {
         event.preventDefault();     // preventing page to get refresh
         this.props.add(this.state);  //adding and displaying  data into dom
-
         this.resetForm();
     }
 
@@ -70,7 +69,7 @@ class AddStudent extends Component {
                 </div>
                 <div className="row">
                     <div className="col input-field s10 offset-s1">
-                        <input onChange={this.handleKeyPress} name="grade" type="text" id="grade" value={grade} autoComplete='off'/>
+                        <input onChange={this.handleKeyPress} name="grade" type="number" id="grade" value={grade} autoComplete='off'/>
                         <label htmlFor="grade">Grade</label>
                     </div>
                 </div>
