@@ -19,41 +19,44 @@ class App extends Component {
     }
 
 
-    deleteStudent = (id) => {
-        const indexToDelete = this.state.students.findIndex((student) => {
-            return student.id === id;
-        });
-        if (indexToDelete >= 0) {
-            const tempStudents = this.state.students.slice();   // we need copy of an array
-            tempStudents.splice(indexToDelete, 1);
-            this.setState({
-                students: tempStudents
-            });
-        }
+    deleteStudent = async(id) => {
+
+        const formattedId=formatPostData({id:id}) ;  // creating an object with key name id with value of id
+        await axios.post('/server/deletestudent.php', formattedId);
+        this.getStudentData();
+
+
 
     }
 
-    addStudent = async (student) => {      //saync infront of function not infront of varaible holding a function
-        const formattedstudent = formatPostData(student)
-        console.log('add student:', formattedstudent);
-        const resp = await axios.post('http://localhost/server/createstudent.php', formattedstudent);  // end point and data which u want to send in here we want to send student
-        console.log('Add student Response:', resp);
+    addStudent = async (student) => {      //async infront of function not infront of varaible holding a function
+
+        const formattedstudent = formatPostData(student);
+        await axios.post('/server/createstudent.php', formattedstudent);  // end point and data which u want to send in here we want to send student
+        this.getStudentData();
 
     }
 
     async getStudentData() {   //asychronus fuction . for asynchronus u have to be inside function
-        //Call server to get  student data
-        const resp = await axios.get('http://localhost/server/getstudentlist.php');
-        console.log("Get Resp :", resp);
-        if(resp.data.success) {
-            this.setState({
-                student: resp.data.data
-            });
 
-        }
+        const resp = await axios.get('/server/getstudentlist.php');  //Call server to get  student data
+        this.setState({
+            students:resp.data.data|| []
+        });
+        // if (resp.data.success) {
+        //     this.setState({
+        //         students: resp.data.data
+        //     });
+        //
+        // } else{
+        //
+        //     this.setState({
+        //         students:[]
+        //     });
+        // }
 
         //below is the second method for api call above is asynchronus await
-        /* axios.get('http://localhost/server/getstudentlist.php').then((response) => {         //technical axios returns an object promise
+        /* axios.get('http://localhost/server/getstudentlist.php').then((response) => {//technically axios returns an object promise
         //     console.log('Server Response: ', response.data.data);
         //     this.setState({
         //         students: response.data.data

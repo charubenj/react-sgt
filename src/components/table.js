@@ -3,12 +3,13 @@ import StudentRow from './student_row';
 
 
 const Table = props => {
+
     const {studentList} = props;
     let studentRows = [];   // we are restting to variable value to an array;
-
     if (Array.isArray(studentList) && studentList.length) {      // if we have data we build our student rows
 
         studentRows = props.studentList.map((student) => {  // map is an array function use for looping of an array element
+
             return <StudentRow delete={props.deleteStudent} key={student.id} student={student}/>
         });
 
