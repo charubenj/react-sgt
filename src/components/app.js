@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import 'materialize-css/dist/css/materialize.min.css';   //.min is minified version
-import 'materialize-css/dist/js/materialize.min';
+import 'materialize-css/dist/js/materialize.min';   // componenet has to be capatilized for react
 import '../assets/css/app.scss';
 import AddStudent from './add_student'
 import Table from './table';
+import axios from 'axios';
 import studentData from "../data/get_all_students";
-import {randomString} from '../helpers';   // if we only give folder name then it will search index file in folder
+import {formatPostData} from '../helpers';   // if we only give folder name then it will search index file in folder
 
 
 class App extends Component {
@@ -17,46 +18,57 @@ class App extends Component {
         this.getStudentData();
     }
 
-    deleteStudent = (id) => {
-        const indexToDelete = this.state.students.findIndex((student) => {
 
-            return student.id === id;
-        });
-        if (indexToDelete >= 0) {
-            const tempStudents = this.state.students.slice();   // we need copy of an array
+    deleteStudent = async(id) => {
 
-            tempStudents.splice(indexToDelete, 1);
+        const formattedId=formatPostData({id:id}) ;  // creating an object with key name id with value of id
+        await axios.post('/server/deletestudent.php', formattedId);
+        this.getStudentData();
 
-            this.setState({
-                students: tempStudents
-            });
-        }
+
 
     }
 
-    addStudent = (student) => {
+    addStudent = async (student) => {      //async infront of function not infront of varaible holding a function
 
-        student.id = randomString();
+        const formattedstudent = formatPostData(student);
+        await axios.post('/server/createstudent.php', formattedstudent);  // end point and data which u want to send in here we want to send student
+        this.getStudentData();
 
-        this.setState({
-            students: [...this.state.students, student]  //adding array value and add to newarray
-        });
     }
 
-    getStudentData() {
+    async getStudentData() {   //asychronus fuction . for asynchronus u have to be inside function
 
-        //Call server to get  student data
-
+        const resp = await axios.get('/server/getstudentlist.php');  //Call server to get  student data
         this.setState({
-            students: studentData
+            students:resp.data.data|| []
         });
+        // if (resp.data.success) {
+        //     this.setState({
+        //         students: resp.data.data
+        //     });
+        //
+        // } else{
+        //
+        //     this.setState({
+        //         students:[]
+        //     });
+        // }
+
+        //below is the second method for api call above is asynchronus await
+        /* axios.get('http://localhost/server/getstudentlist.php').then((response) => {//technically axios returns an object promise
+        //     console.log('Server Response: ', response.data.data);
+        //     this.setState({
+        //         students: response.data.data
+        //     });
+         });*/
+
     }
 
     render() {
         return (
             <div>
                 <h1 className="center">SGT</h1>
-
                 <div className="row">
                     <div className="col s12 m8">
                         <Table deleteStudent={this.deleteStudent} studentList={this.state.students}/>
