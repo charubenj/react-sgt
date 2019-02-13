@@ -18,6 +18,7 @@ class App extends Component {
         this.getStudentData();
     }
 
+
     deleteStudent = (id) => {
         const indexToDelete = this.state.students.findIndex((student) => {
 
@@ -44,17 +45,22 @@ class App extends Component {
         });
     }
 
-    getStudentData() {
-
+    async getStudentData() {   //asychronus fuction . for asynchronus u have to be inside function
         //Call server to get  student data
-
-        axios.get('http://localhost/server/getstudentlist.php').then((response) => {         //technical axios returns an object promise
-            console.log('Server Response: ', response.data.data);
-            this.setState({
-                students: response.data.data
-            });
+        const resp = await axios.get('http://localhost/server/getstudentlist.php');
+        this.setState({
+            student: resp.data.data
         });
-        
+        console.log('Resp :', resp);
+
+        //below is the second method for api call above is asynchronus await
+        /* axios.get('http://localhost/server/getstudentlist.php').then((response) => {         //technical axios returns an object promise
+        //     console.log('Server Response: ', response.data.data);
+        //     this.setState({
+        //         students: response.data.data
+        //     });
+         });*/
+
     }
 
     render() {
