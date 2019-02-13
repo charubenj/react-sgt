@@ -6,7 +6,7 @@ import AddStudent from './add_student'
 import Table from './table';
 import axios from 'axios';
 import studentData from "../data/get_all_students";
-import {randomString} from '../helpers';   // if we only give folder name then it will search index file in folder
+import {formatPostData} from '../helpers';   // if we only give folder name then it will search index file in folder
 
 
 class App extends Component {
@@ -21,14 +21,11 @@ class App extends Component {
 
     deleteStudent = (id) => {
         const indexToDelete = this.state.students.findIndex((student) => {
-
             return student.id === id;
         });
         if (indexToDelete >= 0) {
             const tempStudents = this.state.students.slice();   // we need copy of an array
-
             tempStudents.splice(indexToDelete, 1);
-
             this.setState({
                 students: tempStudents
             });
@@ -36,22 +33,24 @@ class App extends Component {
 
     }
 
-    addStudent = (student) => {
+    addStudent = async (student) => {      //saync infront of function not infront of varaible holding a function
+        const formattedstudent = formatPostData(student)
+        console.log('add student:', formattedstudent);
+        const resp = await axios.post('http://localhost/server/createstudent.php', formattedstudent);  // end point and data which u want to send in here we want to send student
+        console.log('Add student Response:', resp);
 
-        student.id = randomString();
-
-        this.setState({
-            students: [...this.state.students, student]  //adding array value and add to newarray
-        });
     }
 
     async getStudentData() {   //asychronus fuction . for asynchronus u have to be inside function
         //Call server to get  student data
         const resp = await axios.get('http://localhost/server/getstudentlist.php');
-        this.setState({
-            student: resp.data.data
-        });
-        console.log('Resp :', resp);
+        console.log("Get Resp :", resp);
+        if(resp.data.success) {
+            this.setState({
+                student: resp.data.data
+            });
+
+        }
 
         //below is the second method for api call above is asynchronus await
         /* axios.get('http://localhost/server/getstudentlist.php').then((response) => {         //technical axios returns an object promise
@@ -67,7 +66,6 @@ class App extends Component {
         return (
             <div>
                 <h1 className="center">SGT</h1>
-
                 <div className="row">
                     <div className="col s12 m8">
                         <Table deleteStudent={this.deleteStudent} studentList={this.state.students}/>

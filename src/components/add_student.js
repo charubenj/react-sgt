@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 class AddStudent extends Component {
 
     state = {
-
-        name: '',
+        name: 'Heather',
         course: '',
-        grade: ''
+        grade: '',
+        instructor:'',
+        notes:''
     }
 
     handleSubmit = (event) => {
@@ -19,14 +20,15 @@ class AddStudent extends Component {
         this.setState({
             name: '',
             course: '',
-            grade: ''
+            grade: '',
+            instructor:'',
+            notes:''
         });
 
     }
 
 
     handleKeyPress = (event) => {
-     
         this.setState({
             [event.target.name]: event.target.value//   const email='jelly'; user={[email]:'abc@gmail.com}, console.log(user);
         });
@@ -52,7 +54,7 @@ class AddStudent extends Component {
     }
 
     render() {
-        const {name, course, grade} = this.state;
+        const {name, course, grade,instructor,notes} = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="row">
@@ -73,6 +75,21 @@ class AddStudent extends Component {
                         <label htmlFor="grade">Grade</label>
                     </div>
                 </div>
+
+                <div className="row">
+                    <div className="col input-field s10 offset-s1">
+                        <input onChange={this.handleKeyPress} name="instructor" type="text" id="instructor" value={instructor} autoComplete='off'/>
+                        <label htmlFor="instructor">Instructor</label>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col input-field s10 offset-s1">
+                        <input onChange={this.handleKeyPress} name="notes" type="text" id="notes" value={notes} autoComplete='off'/>
+                        <label htmlFor="notes">Notes</label>
+                    </div>
+                </div>
+
                 <div className="row">
                     <div className="col s6 center">
                         <button onClick={this.resetForm} type="button" className="btn red darken-2 waves-effect waves-light">Clear</button>
