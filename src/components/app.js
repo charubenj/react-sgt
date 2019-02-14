@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import 'materialize-css/dist/css/materialize.min.css';   //.min is minified version
-import 'materialize-css/dist/js/materialize.min';   // componenet has to be capatilized for react
+import 'materialize-css/dist/js/materialize.min';   // component has to be capitalized for react
 import '../assets/css/app.scss';
 import AddStudent from './add_student'
 import Table from './table';
@@ -32,12 +32,12 @@ class App extends Component {
         //     });
          });*/
 
-        render(){
+        render(){                   // creating router
         return (
             <div className="container">
                 <Route exact path="/" component={Table}/>
                 <Route path="/add-student" component={AddStudent}/>
-                <Route path="/student/:id" component={ViewStudent}/>   
+                <Route path="/student/:id" component={ViewStudent}/>
             </div>
         );
     }
